@@ -1,0 +1,149 @@
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.App {
+     
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  max-width: 100%;
+  width : 100%;
+}
+.header{
+  display: flex;
+  margin-bottom : 20vw;
+  margin-top : -20px;
+  background-color: #102B5C;
+  
+  
+}
+.calender{
+  background-color: #F9F9F9;
+  width : 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height : 700px;
+  flex-direction: column;
+}
+
+.calender h1{
+   font-family: 'BMJUA';
+   color : #102B5C;
+}
+.header-menu{
+  font-family: 'BMJUA';
+  padding : 40px;
+  background-color: transparent;
+  border : none;
+  text-align: center;
+  font-size: 30pt;
+  margin : 90px;
+  background-color: transparent;
+  margin-left : 7vw;
+  color : white;
+  
+}
+
+.header-menu:hover{
+  cursor: pointer;
+  color : rgb(138, 136, 136);
+}
+.modal {
+  margin-top : 20rem;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width : 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.modal label {
+  text-align: left;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.modal input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.gender-buttons {
+  display: flex;
+  gap: 10px;
+  margin : 40px;
+}
+
+.gender-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  font-weight: 600;
+}
+
+.gender-buttons button.selected {
+  background-color: #333;
+  color: white;
+  border-color: #333;
+}
+
+.submit-btn {
+  margin-top: 12px;
+  background-color: #0066ff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #004ccc;
+}
+.male {
+  color: blue;
+}
+.female {
+  color: hotpink;
+}
+.tile-members {
+  margin-top: 4px;
+}
+
+.slider-section{
+  margin-bottom : 400px;
+}
+
+.title{
+      font-family: 'BMJUA';
+      text-align: center;
+      font-size: 40pt;
+      color : #102B5C;
+    
+}
+.shorts-section {
+  margin-top : -400px;
+  padding-bottom : 100px;
+
+  justify-content: center;
+  align-items: center;
+}
