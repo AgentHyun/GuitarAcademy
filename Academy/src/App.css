@@ -21,18 +21,21 @@
   margin-bottom : 20vw;
   margin-top : -20px;
   background-color: #102B5C;
-  
+  height :280px;
   
 }
-.calender{
+.calender {
   background-color: #F9F9F9;
-  width : 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height : 700px;
   flex-direction: column;
+  padding-bottom: 50px;
+  /* height: 700px; ← 이 줄 제거 */
 }
+
+
 
 .calender h1{
    font-family: 'BMJUA';
@@ -106,7 +109,7 @@
 
 .submit-btn {
   margin-top: 12px;
-  background-color: #0066ff;
+  background-color: #172d4e;
   color: white;
   padding: 12px;
   border: none;
@@ -117,7 +120,7 @@
 }
 
 .submit-btn:hover {
-  background-color: #004ccc;
+  background-color: #3060b3;
 }
 .male {
   color: blue;
@@ -126,8 +129,31 @@
   color: hotpink;
 }
 .tile-members {
-  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: normal;        /* 자동 줄바꿈 허용 */
+  word-break: break-word;    /* 긴 단어 줄바꿈 */
+  text-align: center;
+  overflow: visible;         /* 넘치는 텍스트 표시 */
+  width: 100%;
 }
+
+
+.react-calendar {
+  font-family: 'BMJUA', sans-serif;
+}
+
+.react-calendar__tile {
+  min-height: 80px;
+  vertical-align: top;
+  padding: 4px;
+}
+
+.react-calendar__tile--now {
+  background: #e3f2fd;
+}
+
 
 .slider-section{
   margin-bottom : 400px;
@@ -143,7 +169,7 @@
 .shorts-section {
   margin-top : -400px;
   padding-bottom : 100px;
-
+  padding-bottom : 500px;
   justify-content: center;
   align-items: center;
 }
