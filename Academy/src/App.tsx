@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import html2canvas from 'html2canvas';
+import KakaoMap from './kakaoMap';
 
 interface Member {
   name: string;
@@ -34,7 +35,15 @@ function App() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', gender: '남', time: '09:00' });
+ const [form, setForm] = useState<{
+  name: string;
+  gender: '남' | '여';
+  time: string;
+}>({
+  name: '',
+  gender: '남',
+  time: '09:00',
+});
 
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +69,7 @@ function App() {
 
     const newMember: Member = {
       name: form.name,
-      gender: form.gender as '남' | '여',
+      gender: form.gender,
       time: form.time,
       weekday: selectedDate.getDay(),
     };
@@ -75,27 +84,26 @@ function App() {
   };
 
   const handleCaptureCalendar = async () => {
-  if (!calendarRef.current) return;
+    if (!calendarRef.current) return;
 
-  const originalTransform = calendarRef.current.style.transform;
-  calendarRef.current.style.transform = 'none';
+    const originalTransform = calendarRef.current.style.transform;
+    calendarRef.current.style.transform = 'none';
 
-  const canvas = await html2canvas(calendarRef.current, {
-    backgroundColor: '#ffffff', // 흰 배경
-    scale: 2 // 고해상도 이미지
-  });
+    const canvas = await html2canvas(calendarRef.current, {
+      backgroundColor: '#ffffff',
+      scale: 2,
+    });
 
-  calendarRef.current.style.transform = originalTransform;
+    calendarRef.current.style.transform = originalTransform;
 
-  canvas.toBlob((blob) => {
-    if (!blob) return;
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'calendar.png';
-    link.click();
-  });
-};
-
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'calendar.png';
+      link.click();
+    });
+  };
 
   return (
     <div className="App" style={{
@@ -107,15 +115,22 @@ function App() {
       maxWidth: '100%',
     }}>
 
+      {/* 헤더 */}
       <div className="header">
         <img src="./이충실용음악학원.png" alt="로고" style={{ width: '20%', marginLeft: '-30px' }} />
         <nav className="nav" style={{ marginBottom: '20px' }}>
           <button className='header-menu'>HOME</button>
+         <button className='header-menu'>LOCATION</button>
           <button className='header-menu'>SHORTS</button>
           <button className='header-menu'>SCHEDULE</button>
         </nav>
       </div>
-
+    <div className='location-section'>
+      {/* 위치 안내 */}
+      <h1 style={{ fontSize : '40pt',fontFamily: 'BMJUA', color: '#102B5C' }}>위치</h1>
+      <KakaoMap />
+</div>
+      {/* 오디오 바 */}
       <div style={{
         position: 'fixed', bottom: '20px', right: '20px',
         display: 'flex', alignItems: 'center', gap: '15px',
@@ -129,8 +144,9 @@ function App() {
         </audio>
       </div>
 
+      {/* 쇼츠 */}
       <div className='shorts-section' style={{ maxWidth: '700px', marginBottom: '40px' }}>
-        <h1 className='title'>잡범 Shorts<span role="img" aria-label="motorcycle">🏍️</span></h1>
+        <h1 className='title'>쇼츠<span role="img" aria-label="motorcycle">🏍️</span></h1>
         <Slider {...sliderSettings}>
           {videoList.map((video, idx) => (
             <div key={idx}>
@@ -139,7 +155,7 @@ function App() {
                 muted
                 loop
                 controls
-                style={{ marginLeft : '100px',width: '70%',  borderRadius: '10px' }}>
+                style={{ marginLeft: '100px', width: '70%', borderRadius: '10px' }}>
                 <source src={video} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -148,63 +164,60 @@ function App() {
         </Slider>
       </div>
 
-    <div className="calender" style={{ transform : 'scale(2)',background: '#f9f9f9' }}>
-  <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C' }}>스케줄</h1>
-
-  {/* 여기만 캡처하고 싶음 */}
-<div ref={calendarRef} style={{
-  backgroundColor: '#fff',
-  padding: '30px',
-  borderRadius: '16px',
-  boxShadow: '0 0 20px rgba(0, 0, 0, 0.15)',
-  border: '1px solid #ddd',
-  width: 'fit-content',
-  margin: '0 auto'
-}}>
-  <Calendar
-    calendarType="gregory"
-    locale="ko-KR"
-    onClickDay={handleDateClick}
-    tileContent={({ date }) => {
-      const weekday = date.getDay();
-      const dayMembers = members.filter((m) => m.weekday === weekday);
-      return (
-        <div className="tile-members" style={{
-          fontSize: '0.75rem',
-          marginTop: '4px',
-          textAlign: 'center',
-          wordBreak: 'break-word'
+      {/* 스케줄 캘린더 */}
+      <div className="calender" style={{ transform: 'scale(2)', background: '#f9f9f9' }}>
+        <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C' }}>시간표</h1>
+        <div ref={calendarRef} style={{
+          backgroundColor: '#fff',
+          padding: '30px',
+          borderRadius: '16px',
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.15)',
+          border: '1px solid #ddd',
+          width: 'fit-content',
+          margin: '0 auto'
         }}>
-          {dayMembers.map((m, idx) => (
-            <div
-              key={idx}
-              className={m.gender === '남' ? 'male' : 'female'}>
-              {m.name}<br />{m.time}
-            </div>
-          ))}
+          <Calendar
+            calendarType="gregory"
+            locale="ko-KR"
+            onClickDay={handleDateClick}
+            tileContent={({ date }) => {
+              const weekday = date.getDay();
+              const dayMembers = members.filter((m) => m.weekday === weekday);
+              return (
+                <div className="tile-members" style={{
+                  fontSize: '0.75rem',
+                  marginTop: '4px',
+                  textAlign: 'center',
+                  wordBreak: 'break-word'
+                }}>
+                  {dayMembers.map((m, idx) => (
+                    <div
+                      key={idx}
+                      className={m.gender === '남' ? 'male' : 'female'}>
+                      {m.name}<br />{m.time}
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
+          />
         </div>
-      );
-    }}
-  />
-</div>
 
+        <button onClick={handleCaptureCalendar} style={{
+          marginTop: '20px',
+          padding: '10px 20px',
+          fontSize: '1rem',
+          backgroundColor: '#102B5C',
+          color: 'white',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: 'pointer'
+        }}>
+      Download
+        </button>
+      </div>
 
-  {/* 버튼은 캡처 범위 밖에 위치 */}
-  <button onClick={handleCaptureCalendar} style={{
-    marginTop: '20px',
-    padding: '10px 20px',
-    fontSize: '1rem',
-    backgroundColor: '#102B5C',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer'
-  }}>
-    스케줄 Download
-  </button>
-</div>
-
-
+      {/* 회원 등록 모달 */}
       {isModalOpen && (
         <div className="modal-overlay" style={{
           position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
@@ -218,7 +231,7 @@ function App() {
             <form onSubmit={handleSubmit} className="modal-form" style={{
               display: 'flex', flexDirection: 'column', gap: '20px'
             }}>
-              <h2 style={{ fontSize: '24px', marginBottom: '10px' }}>회원 등록</h2>
+              <h2 style={{ fontSize: '24px' }}>회원 등록</h2>
               <input
                 type="text"
                 placeholder="이름"

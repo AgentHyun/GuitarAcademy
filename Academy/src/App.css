@@ -7,7 +7,7 @@
 
 
 .App {
-     
+      min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@
   border : none;
   text-align: center;
   font-size: 30pt;
-  margin : 90px;
+  margin-top : 90px;
   background-color: transparent;
   margin-left : 7vw;
   color : white;
@@ -167,9 +167,21 @@
     
 }
 .shorts-section {
-  margin-top : -400px;
+ 
   padding-bottom : 100px;
   padding-bottom : 500px;
   justify-content: center;
   align-items: center;
+}
+
+.location-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  
+  align-items: center;
+  justify-content: center;
+  background-color: #eff3ee;
+  padding: 50px 0;
+
 }
