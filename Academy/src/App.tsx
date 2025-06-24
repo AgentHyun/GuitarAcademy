@@ -7,10 +7,10 @@ import WeekSchedule from './components/ScheduleCalender';
 import MemberModal from './components/MemberModal';
 import Footer from './components/Footer';
 import type { Member } from './components/types';
- 
 import html2canvas from 'html2canvas';
 import './App.css';
 import ImageBoardUploader from './components/ImageBoardUploader';
+import { supabase } from './components/superbase';
 
 function App() {
   const [members, setMembers] = useState<Member[]>([]);
@@ -31,23 +31,17 @@ function App() {
     '/콜로라도.mp4',
     '/로키산맥.mp4',
     '/하와이.mp4',
-    '/사랑의잡범.mp4'
+    '/사랑의잡범.mp4',
   ];
 
   useEffect(() => {
-    const saved = localStorage.getItem('members');
-    if (saved) {
-      try {
-        setMembers(JSON.parse(saved));
-      } catch (e) {
-        console.error('로컬 저장 데이터 파싱 실패', e);
-      }
-    }
+    const fetchMembers = async () => {
+      const { data, error } = await supabase.from('members').select('*');
+      if (data) setMembers(data);
+      if (error) console.error('회원 불러오기 실패', error);
+    };
+    fetchMembers();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('members', JSON.stringify(members));
-  }, [members]);
 
   const handleDateClick = (weekday: number) => {
     if (!isAuthorized) {
@@ -62,7 +56,7 @@ function App() {
     setIsModalOpen(true);
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.name.trim() === '' || selectedWeekday === null) return;
 
@@ -73,14 +67,24 @@ function App() {
       weekday: selectedWeekday,
     };
 
-    setMembers((prev) => [...prev, newMember]);
+    const { data, error } = await supabase.from('members').insert([newMember]).select();
+
+    if (data) {
+      setMembers((prev) => [...prev, data[0]]);
+    }
+
     setForm({ name: '', gender: '남', time: '09:00' });
     setIsModalOpen(false);
   };
 
-  const handleDelete = (memberIndexToDelete: number) => {
-    const updatedMembers = members.filter((_, idx) => idx !== memberIndexToDelete);
-    setMembers(updatedMembers);
+  const handleDelete = async (memberIndexToDelete: number) => {
+    const target = members[memberIndexToDelete];
+    const { error } = await supabase.from('members').delete().eq('id', (target as any).id);
+
+    if (!error) {
+      const updatedMembers = members.filter((_, idx) => idx !== memberIndexToDelete);
+      setMembers(updatedMembers);
+    }
   };
 
   const handleCaptureCalendar = async () => {
@@ -105,19 +109,21 @@ function App() {
     <div className="App">
       <Header />
       <div className='banner'>
-      <img width = '1000px' height = '900px' src = '/배너.png'/>
+        <img width='1000px' height='900px' src='/배너.png' />
       </div>
       <LocationSection />
       <AudioBar />
-      <ImageBoardUploader/>
+      <ImageBoardUploader />
       <ShortsSlider videoList={videoList} />
-      
-      <WeekSchedule
-        members={members}
-        handleDateClick={handleDateClick}
-        handleCaptureCalendar={handleCaptureCalendar}
-        calendarRef={calendarRef}
-      />
+
+     <WeekSchedule
+  members={members}
+  handleDateClick={handleDateClick}
+  handleCaptureCalendar={handleCaptureCalendar}
+  calendarRef={calendarRef}
+  showFullName={isAuthorized}
+  isAuthorized={isAuthorized} // ✅ 추가
+/>
       {isModalOpen && selectedWeekday !== null && (
         <MemberModal
           isOpen={isModalOpen}
@@ -128,12 +134,10 @@ function App() {
           members={members}
           selectedWeekday={selectedWeekday}
           handleDelete={handleDelete}
-          isAuthorized={isAuthorized}
         />
-        
       )}
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }

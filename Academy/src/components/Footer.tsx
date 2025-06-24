@@ -30,7 +30,7 @@ const Footer = () => {
           <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '8px' }}>
             이충 실용음악학원
           </div>
-         <div>🏠 경기도 평택시 이충동 123번지</div>
+         <div>🏠 경기도 평택시 서정로 288-1</div>
 <div>☎️ 전화: 031-662-9442</div>
 
         </div>

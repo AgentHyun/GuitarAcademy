@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import type { Member } from './types';
 
 interface Props {
@@ -6,16 +7,13 @@ interface Props {
   handleCaptureCalendar: () => void;
   calendarRef: React.RefObject<HTMLDivElement>;
   showFullName: boolean;
+  isAuthorized: boolean; // ✅ 추가
 }
+
 
 const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
-// 성만 추출하는 함수
 const getLastName = (fullName: string) => fullName[0];
-const maskName = (name: string) => {
-  if (name.length <= 1) return name;
-  return name[0] + 'oo';
-};
 
 const WeekSchedule = ({
   members,
@@ -23,18 +21,38 @@ const WeekSchedule = ({
   handleCaptureCalendar,
   calendarRef,
   showFullName,
+isAuthorized,
 }: Props) => {
+  const [forceFullName, setForceFullName] = useState(false);
+
+ const handleDownloadClick = async () => {
+    if (!isAuthorized) {
+      alert('선생님만 다운로드 가능합니다😎');
+      return;
+    }
+
+    setForceFullName(true);
+    await new Promise((resolve) => setTimeout(resolve, 100)); // 캡처 전 잠깐 대기
+    handleCaptureCalendar();
+    setForceFullName(false);
+  };
+
   return (
-    <div className="week-calendar" style={{
-      background: '#e6f4f1',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      width: '100%',
-      padding: '120px',
-      fontFamily: 'BMJUA',
-    }}>
-      <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C', fontSize: '40pt' }}>시간표</h1>
+    <div
+      className="week-calendar"
+      style={{
+        background: '#e6f4f1',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        padding: '120px',
+        fontFamily: 'BMJUA',
+      }}
+    >
+      <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C', fontSize: '40pt' }}>
+        시간표
+      </h1>
 
       <div
         ref={calendarRef}
@@ -73,25 +91,31 @@ const WeekSchedule = ({
                 cursor: 'pointer',
               }}
             >
-              <h3 style={{
-                textAlign: 'center',
-                fontSize: '1.5rem',
-                marginBottom: '16px',
-                fontWeight: 'bold',
-                color: '#102B5C',
-              }}>{label}</h3>
+              <h3
+                style={{
+                  textAlign: 'center',
+                  fontSize: '1.5rem',
+                  marginBottom: '16px',
+                  fontWeight: 'bold',
+                  color: '#102B5C',
+                }}
+              >
+                {label}
+              </h3>
 
               <div style={{ fontSize: '1rem', lineHeight: '1.8' }}>
                 {Object.entries(groupedByTime).map(([time, membersAtTime], idx) => (
                   <div key={idx} style={{ marginBottom: '12px' }}>
-                    <div style={{
-                      fontWeight: 700,
-                      fontSize: '1.1rem',
-                      marginBottom: '6px',
-                      borderTop: idx > 0 ? '1px solid #bbb' : undefined,
-                      paddingTop: idx > 0 ? '8px' : '0',
-                      color: '#102B5C',
-                    }}>
+                    <div
+                      style={{
+                        fontWeight: 700,
+                        fontSize: '1.1rem',
+                        marginBottom: '6px',
+                        borderTop: idx > 0 ? '1px solid #bbb' : undefined,
+                        paddingTop: idx > 0 ? '8px' : '0',
+                        color: '#102B5C',
+                      }}
+                    >
                       🕘 {time}
                     </div>
                     {membersAtTime.map((m, i) => (
@@ -104,7 +128,9 @@ const WeekSchedule = ({
                           fontSize: '1rem',
                         }}
                       >
-                        - {showFullName ? m.name : getLastName(m.name)}
+                        - {(showFullName || forceFullName)
+                          ? m.name
+                          : getLastName(m.name) + 'OO'}
                       </div>
                     ))}
                   </div>
@@ -116,7 +142,7 @@ const WeekSchedule = ({
       </div>
 
       <button
-        onClick={handleCaptureCalendar}
+        onClick={handleDownloadClick}
         style={{
           marginTop: '36px',
           padding: '14px 28px',
