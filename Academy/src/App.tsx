@@ -10,6 +10,7 @@ import type { Member } from './components/types';
  
 import html2canvas from 'html2canvas';
 import './App.css';
+import ImageBoardUploader from './components/ImageBoardUploader';
 
 function App() {
   const [members, setMembers] = useState<Member[]>([]);
@@ -108,7 +109,9 @@ function App() {
       </div>
       <LocationSection />
       <AudioBar />
+      <ImageBoardUploader/>
       <ShortsSlider videoList={videoList} />
+      
       <WeekSchedule
         members={members}
         handleDateClick={handleDateClick}

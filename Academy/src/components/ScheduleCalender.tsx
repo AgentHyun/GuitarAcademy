@@ -5,11 +5,25 @@ interface Props {
   handleDateClick: (weekday: number) => void;
   handleCaptureCalendar: () => void;
   calendarRef: React.RefObject<HTMLDivElement>;
+  showFullName: boolean;
 }
 
 const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
-const WeekSchedule = ({ members, handleDateClick, handleCaptureCalendar, calendarRef }: Props) => {
+// 성만 추출하는 함수
+const getLastName = (fullName: string) => fullName[0];
+const maskName = (name: string) => {
+  if (name.length <= 1) return name;
+  return name[0] + 'oo';
+};
+
+const WeekSchedule = ({
+  members,
+  handleDateClick,
+  handleCaptureCalendar,
+  calendarRef,
+  showFullName,
+}: Props) => {
   return (
     <div className="week-calendar" style={{
       background: '#e6f4f1',
@@ -90,7 +104,7 @@ const WeekSchedule = ({ members, handleDateClick, handleCaptureCalendar, calenda
                           fontSize: '1rem',
                         }}
                       >
-                        - {m.name}
+                        - {showFullName ? m.name : getLastName(m.name)}
                       </div>
                     ))}
                   </div>
