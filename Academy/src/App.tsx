@@ -3,22 +3,21 @@ import Header from './components/Header';
 import LocationSection from './components/LocationSection';
 import AudioBar from './components/AudioBar';
 import ShortsSlider from './components/ShortsSlider';
-import ScheduleCalendar from './components/ScheduleCalender';
+import WeekSchedule from './components/ScheduleCalender';
 import MemberModal from './components/MemberModal';
 import type { Member } from './components/types';
 import html2canvas from 'html2canvas';
-import './App.css'
+import './App.css';
 
 function App() {
-  // 📦 상태 정의
   const [members, setMembers] = useState<Member[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWeekday, setSelectedWeekday] = useState<number | null>(null); // 요일 인덱스
   const [form, setForm] = useState({
     name: '',
     gender: '남' as '남' | '여',
     time: '09:00',
   });
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
   const videoList = [
@@ -28,7 +27,7 @@ function App() {
     '/로키산맥.mp4',
   ];
 
-  // 📂 로컬스토리지 저장/불러오기
+  // 로컬스토리지 불러오기
   useEffect(() => {
     const saved = localStorage.getItem('members');
     if (saved) {
@@ -36,17 +35,46 @@ function App() {
     }
   }, []);
 
+  // 로컬스토리지 저장
   useEffect(() => {
     localStorage.setItem('members', JSON.stringify(members));
   }, [members]);
 
-  // 📅 날짜 클릭 시 모달 열기
-  const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
+  // 요일 클릭 시 모달 열기
+  const handleDateClick = (weekday: number) => {
+    setSelectedWeekday(weekday);
     setIsModalOpen(true);
   };
 
-  // 📤 캘린더 저장 버튼
+  // 등록
+ const handleRegister = (e: React.FormEvent) => {
+  e.preventDefault(); // ✅ 새로고침 방지
+  if (form.name.trim() === '' || selectedWeekday === null) return;
+
+  const newMember: Member = {
+    name: form.name,
+    gender: form.gender,
+    time: form.time,
+    weekday: selectedWeekday,
+  };
+
+  setMembers([...members, newMember]);
+  setForm({ name: '', gender: '남', time: '09:00' });
+};
+
+
+  // 삭제
+  const handleDelete = (indexInFiltered: number) => {
+    if (selectedWeekday === null) return;
+
+    const filteredMembers = members.filter((m) => m.weekday === selectedWeekday);
+    const target = filteredMembers[indexInFiltered];
+
+    const updated = members.filter((m) => m !== target);
+    setMembers(updated);
+  };
+
+  // 캘린더 저장
   const handleCaptureCalendar = async () => {
     if (!calendarRef.current) return;
 
@@ -69,50 +97,32 @@ function App() {
     });
   };
 
-  // ✅ 회원 등록
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedDate) return;
-
-    const newMember: Member = {
-      name: form.name,
-      gender: form.gender,
-      time: form.time,
-      weekday: selectedDate.getDay(),
-    };
-
-    setMembers([...members, newMember]);
-    setForm({ name: '', gender: '남', time: '09:00' });
-  };
-
-  // ❌ 회원 삭제
-  const handleDelete = (indexToDelete: number, weekday: number) => {
-    const filtered = members.filter((m, i) => !(i === indexToDelete && m.weekday === weekday));
-    setMembers(filtered);
-  };
-
   return (
     <div className="App">
       <Header />
       <LocationSection />
       <AudioBar />
       <ShortsSlider videoList={videoList} />
-      <ScheduleCalendar
+      <WeekSchedule
         members={members}
         handleDateClick={handleDateClick}
         handleCaptureCalendar={handleCaptureCalendar}
         calendarRef={calendarRef}
       />
-      <MemberModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        form={form}
-        setForm={setForm}
-        handleSubmit={handleSubmit}
-        members={members}
-        selectedDate={selectedDate}
-        handleDelete={handleDelete}
-      />
+
+      {isModalOpen && selectedWeekday !== null && (
+       <MemberModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  form={form}
+  setForm={setForm}
+  handleSubmit={handleRegister}
+  members={members}
+  selectedWeekday={selectedWeekday}
+  handleDelete={handleDelete}
+/>
+
+      )}
     </div>
   );
 }

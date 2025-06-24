@@ -1,4 +1,5 @@
-import type { Member } from './types'; 
+import type { Member } from './types';
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -6,12 +7,25 @@ interface Props {
   setForm: (val: any) => void;
   handleSubmit: (e: React.FormEvent) => void;
   members: Member[];
-  selectedDate: Date | null;
-  handleDelete: (idx: number, weekday: number) => void;
+  selectedWeekday: number | null;
+  handleDelete: (indexInFiltered: number) => void;
 }
 
-const MemberModal = ({ isOpen, onClose, form, setForm, handleSubmit, members, selectedDate, handleDelete }: Props) => {
-  if (!isOpen) return null;
+const MemberModal = ({
+  isOpen,
+  onClose,
+  form,
+  setForm,
+  handleSubmit,
+  members,
+  selectedWeekday,
+  handleDelete
+}: Props) => {
+  if (!isOpen || selectedWeekday === null) return null;
+
+  const dayMembers = members
+    .map((m, idx) => ({ ...m, originalIdx: idx }))
+    .filter((m) => m.weekday === selectedWeekday);
 
   return (
     <div className="modal-overlay" style={{
@@ -24,29 +38,60 @@ const MemberModal = ({ isOpen, onClose, form, setForm, handleSubmit, members, se
         width: '400px', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.3)'
       }}>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <h2>회원 등록</h2>
-          <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required placeholder="이름" />
+          <h2>{['일', '월', '화', '수', '목', '금', '토'][selectedWeekday]}요일 회원 등록</h2>
+
+          <input
+            type="text"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+            placeholder="이름"
+          />
+
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <label><input type="radio" checked={form.gender === '남'} onChange={() => setForm({ ...form, gender: '남' })} /> 남</label>
-            <label><input type="radio" checked={form.gender === '여'} onChange={() => setForm({ ...form, gender: '여' })} /> 여</label>
+            <label>
+              <input
+                type="radio"
+                checked={form.gender === '남'}
+                onChange={() => setForm({ ...form, gender: '남' })}
+              /> 남
+            </label>
+            <label>
+              <input
+                type="radio"
+                checked={form.gender === '여'}
+                onChange={() => setForm({ ...form, gender: '여' })}
+              /> 여
+            </label>
           </div>
-          <select value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })}>
+
+          <select
+            value={form.time}
+            onChange={(e) => setForm({ ...form, time: e.target.value })}
+          >
             {[...Array(12)].map((_, i) => {
               const hour = i + 9;
-              return <option key={hour}>{hour.toString().padStart(2, '0')}:00</option>;
+              return (
+                <option key={hour} value={`${hour.toString().padStart(2, '0')}:00`}>
+                  {hour.toString().padStart(2, '0')}:00
+                </option>
+              );
             })}
           </select>
+
           <button type="submit" className='submit-btn'>등록</button>
-          <button type="button" className='submit-btn' onClick={onClose} style={{ backgroundColor: '#ccc' }}>닫기</button>
-          {selectedDate && members
-            .map((m, idx) => ({ ...m, idx }))
-            .filter((m) => m.weekday === selectedDate.getDay())
-            .map((m) => (
-              <div key={m.idx} style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <button type="button" className='submit-btn' onClick={onClose} style={{ backgroundColor: '#ccc' }}>
+            닫기
+          </button>
+
+          <div style={{ marginTop: '12px' }}>
+            {dayMembers.map((m) => (
+              <div key={m.originalIdx} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
                 <span>{m.name} ({m.gender}) {m.time}</span>
-                <button onClick={() => handleDelete(m.idx, m.weekday)}>삭제</button>
+                <button onClick={() => handleDelete(m.originalIdx)}>삭제</button>
               </div>
             ))}
+          </div>
         </form>
       </div>
     </div>
