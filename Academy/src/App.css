@@ -123,7 +123,7 @@
   background-color: #3060b3;
 }
 .male {
-  color: blue;
+  color: rgb(238, 146, 233);
 }
 .female {
   color: hotpink;
@@ -178,6 +178,8 @@
   padding-bottom : 50px;
   justify-content: center;
   align-items: center;
+  
+  
 }
 
 .location-section {
@@ -190,4 +192,9 @@
   background-color: #eff3ee;
   padding: 50px 0;
 
+}
+
+.banner{
+  padding-bottom : 100px;
+  margin-top : -300px;
 }

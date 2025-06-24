@@ -37,8 +37,8 @@ const MemberModal = ({
         background: '#fff', padding: '30px', borderRadius: '12px',
         width: '400px', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.3)'
       }}>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <h2>{['일', '월', '화', '수', '목', '금', '토'][selectedWeekday]}요일 회원 등록</h2>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', textAlign: 'center',flexDirection: 'column', gap: '20px' }}>
+          <h2>{['일', '월', '화', '수', '목', '금', '토'][selectedWeekday]}요일</h2>
 
           <input
             type="text"
