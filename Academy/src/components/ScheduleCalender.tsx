@@ -45,7 +45,7 @@ isAuthorized,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '100%',
+        width: '87%',
         padding: '120px',
         fontFamily: 'BMJUA',
       }}

@@ -22,7 +22,12 @@ function App() {
     gender: '남' as '남' | '여',
     time: '09:00',
   });
+
   const calendarRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null); // ✅ PHOTO 섹션
+  const shortsRef = useRef<HTMLDivElement>(null);
+  const scheduleRef = useRef<HTMLDivElement>(null);
 
   const videoList = [
     '/동해안.mp4',
@@ -105,25 +110,47 @@ function App() {
     });
   };
 
+  // ✅ scrollToSection에 photo 추가
+  const scrollToSection = (section: 'home' | 'location' | 'photo' | 'shorts' | 'schedule') => {
+    if (section === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (section === 'location') locationRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (section === 'photo') photoRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (section === 'shorts') shortsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (section === 'schedule') scheduleRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header scrollToSection={scrollToSection} />
+
       <div className='banner'>
         <img width='1000px' height='900px' src='/배너.png' />
       </div>
-      <LocationSection />
-      <AudioBar />
-      <ImageBoardUploader />
-      <ShortsSlider videoList={videoList} />
 
-     <WeekSchedule
-  members={members}
-  handleDateClick={handleDateClick}
-  handleCaptureCalendar={handleCaptureCalendar}
-  calendarRef={calendarRef}
-  showFullName={isAuthorized}
-  isAuthorized={isAuthorized} // ✅ 추가
-/>
+      <div className='location-section' ref={locationRef}>
+        <LocationSection />
+        <AudioBar />
+      </div>
+
+      <div ref={photoRef} className='image-section'>
+        <ImageBoardUploader />
+      </div>
+
+      <div ref={shortsRef}>
+        <ShortsSlider videoList={videoList} />
+      </div>
+
+      <div ref={scheduleRef} className='calander-section'>
+        <WeekSchedule
+          members={members}
+          handleDateClick={handleDateClick}
+          handleCaptureCalendar={handleCaptureCalendar}
+          calendarRef={calendarRef}
+          showFullName={isAuthorized}
+          isAuthorized={isAuthorized}
+        />
+      </div>
+
       {isModalOpen && selectedWeekday !== null && (
         <MemberModal
           isOpen={isModalOpen}

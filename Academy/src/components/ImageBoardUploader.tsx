@@ -65,25 +65,36 @@ const ImageBoardUploader = () => {
 
   return (
     <div className="location-section-banner">
-      <div style={{ width: '90%', marginTop : '200px', maxWidth: '1000px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ marginLeft : '650px',width: '90%', maxWidth: '1000px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <h2 className="title">사진 게시판</h2>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          style={{
-            fontSize: '30px',
-            padding: '0 16px',
-            border: 'none',
-            backgroundColor: '#102B5C',
-            color: 'white',
-            borderRadius: '50%',
-            width: '48px',
-            height: '48px',
-            cursor: 'pointer',
-            margin : '50px'
-          }}
-        >
-          +
-        </button>
+       <button
+  onClick={() => setIsModalOpen(true)}
+  style={{
+    fontFamily: 'BMJUA',
+    fontSize: '18px',
+    padding: '10px 20px',
+    border: '2px solid #102B5C',
+    backgroundColor: 'white',
+    color: '#102B5C',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    marginLeft: '500px',
+    marginRight: '0',
+    
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.backgroundColor = '#102B5C';
+    e.currentTarget.style.color = 'white';
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.backgroundColor = 'white';
+    e.currentTarget.style.color = '#102B5C';
+  }}
+>
+  📷 사진 업로드
+</button>
+
       </div>
 
       {isModalOpen && (
