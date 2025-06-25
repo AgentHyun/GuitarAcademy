@@ -12,7 +12,7 @@ const GP5Browser = () => {
   const [results, setResults] = useState<Gp5File[]>([]);
   const [allFiles, setAllFiles] = useState<Gp5File[]>([]);
 
-  // 전체 데이터를 한번 받아와서 메모리에 저장
+  // 전체 데이터 로드
   useEffect(() => {
     const fetchFiles = async () => {
       const { data, error } = await supabase.from('gp5_files').select('*');
@@ -26,8 +26,13 @@ const GP5Browser = () => {
     fetchFiles();
   }, []);
 
-  // 입력값에 따라 필터링
+  // 검색어 변경 시 필터링
   useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setResults([]);
+      return;
+    }
+
     const filtered = allFiles.filter((file) =>
       file.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -36,13 +41,12 @@ const GP5Browser = () => {
 
   const handleSelectTitle = (title: string) => {
     setSearchTerm(title);
-    // 선택 후 검색 결과 1개만 남도록
     setResults(allFiles.filter((f) => f.title === title));
   };
 
   return (
-    <div style={{ padding: '60px', fontFamily: 'BMJUA', textAlign: 'center' }}>
-      <h2 className="title">🔍 악보 다운로드</h2>
+    <div style={{ height : '35vh',padding: '60px', fontFamily: 'BMJUA', textAlign: 'center' }}>
+      <h2 className="title">🔍 악보 검색</h2>
       <input
         type="text"
         placeholder="악보 제목 검색"
@@ -54,22 +58,25 @@ const GP5Browser = () => {
           borderRadius: '6px',
           border: '1px solid #ccc',
           width: '250px',
+          
           marginRight: '10px'
         }}
       />
-      <ul style={{ 
-        listStyle: 'none', 
-        padding: '10px', 
-        margin: '10px auto', 
-        width: '280px', 
-        backgroundColor: '#f5f5f5', 
-        borderRadius: '8px', 
-        maxHeight: '150px', 
-        overflowY: 'auto',
-        textAlign: 'left'
-      }}>
-        {searchTerm &&
-          results.map((file) => (
+
+      {/* 자동완성 목록 - 입력값이 있을 때만 */}
+      {searchTerm.trim() !== '' && results.length > 0 && (
+        <ul style={{
+          listStyle: 'none',
+          padding: '10px',
+          margin: '10px auto',
+          width: '280px',
+          backgroundColor: '#f5f5f5',
+          borderRadius: '8px',
+          maxHeight: '150px',
+          overflowY: 'auto',
+          textAlign: 'left'
+        }}>
+          {results.map((file) => (
             <li
               key={file.id}
               style={{ padding: '5px 10px', cursor: 'pointer' }}
@@ -78,26 +85,30 @@ const GP5Browser = () => {
               🎵 {file.title}
             </li>
           ))}
-      </ul>
+        </ul>
+      )}
 
-      <ul style={{ marginTop: '30px', listStyle: 'none', padding: 0 }}>
-        {results.length === 0 ? (
-          <li>검색 결과가 없습니다.</li>
-        ) : (
-          results.map((file) => (
-            <li key={file.id} style={{ marginBottom: '15px' }}>
-              🎼 {file.title} &nbsp;
-              <a
-                href={`https://vhfsymqnbjmdbjsyycdk.supabase.co/storage/v1/object/public/gp5-files/${file.path}`}
-                download
-                style={{ color: '#3060b3', textDecoration: 'underline' }}
-              >
-                다운로드
-              </a>
-            </li>
-          ))
-        )}
-      </ul>
+      {/* 다운로드 링크 - 검색어가 있고 결과 있을 때만 */}
+      {searchTerm.trim() !== '' && (
+        <ul style={{ marginTop: '30px', listStyle: 'none', padding: 0 }}>
+          {results.length === 0 ? (
+            <li>검색 결과가 없습니다.</li>
+          ) : (
+            results.map((file) => (
+              <li key={file.id} style={{ marginBottom: '15px' }}>
+                🎼 {file.title} &nbsp;
+                <a
+                  href={`https://vhfsymqnbjmdbjsyycdk.supabase.co/storage/v1/object/public/gp5-files/${file.path}`}
+                  download
+                  style={{ color: '#3060b3', textDecoration: 'underline' }}
+                >
+                  다운로드
+                </a>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </div>
   );
 };
