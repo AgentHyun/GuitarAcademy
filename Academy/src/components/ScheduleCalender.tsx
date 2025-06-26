@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Member } from './types';
-
+import { toast } from 'react-hot-toast';
 interface Props {
   members: Member[];
   handleDateClick: (weekday: number) => void;
@@ -25,17 +25,17 @@ isAuthorized,
 }: Props) => {
   const [forceFullName, setForceFullName] = useState(false);
 
- const handleDownloadClick = async () => {
-    if (!isAuthorized) {
-      alert('선생님만 다운로드 가능합니다😎');
-      return;
-    }
+const handleDownloadClick = async () => {
+  if (!isAuthorized) {
+    toast.error('선생님만 다운로드 가능합니다 😎');
+    return;
+  }
 
-    setForceFullName(true);
-    await new Promise((resolve) => setTimeout(resolve, 100)); // 캡처 전 잠깐 대기
-    handleCaptureCalendar();
-    setForceFullName(false);
-  };
+  setForceFullName(true);
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  handleCaptureCalendar();
+  setForceFullName(false);
+};
 
   return (
     <div
@@ -45,12 +45,13 @@ isAuthorized,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '87%',
+        width: '100%',
         padding: '120px',
         fontFamily: 'BMJUA',
+        
       }}
     >
-      <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C', fontSize: '40pt' }}>
+      <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C', fontSize: '40pt', marginRight : '220px' }}>
         시간표
       </h1>
 
@@ -65,6 +66,7 @@ isAuthorized,
           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
           border: '1px solid #ddd',
           width: 'fit-content',
+          marginRight : '220px',
         }}
       >
         {weekdays.map((label, weekdayIndex) => {
@@ -152,6 +154,7 @@ isAuthorized,
           border: 'none',
           borderRadius: '6px',
           cursor: 'pointer',
+          marginRight : '220px'
         }}
       >
         Download

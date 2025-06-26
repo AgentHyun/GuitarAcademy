@@ -68,7 +68,7 @@ const Gp5Page = () => {
       <GP5Browser />
 
       <div style={{ minHeight: '50vh', backgroundColor: '#FFFDE7', padding: '40px', fontFamily: 'BMJUA', textAlign: 'center' }}>
-        <h2 className="title">📚 악보 목록</h2>
+        <h2 className="list-title">📚 악보 목록</h2>
 
         {/* 초성 필터 버튼 */}
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>

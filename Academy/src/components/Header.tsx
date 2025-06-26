@@ -29,6 +29,13 @@ const Header = ({ scrollToSection }: HeaderProps) => {
         >
           MUSIC
         </button>
+        <button
+          className='header-menu'
+          onClick={() => navigate('/chord')}
+          style={{ backgroundColor: '#102B5C', color: 'white' }}
+        >
+          CHORD
+        </button>
       </nav>
     </div>
   );

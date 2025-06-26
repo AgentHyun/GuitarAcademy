@@ -45,8 +45,19 @@ const GP5Browser = () => {
   };
 
   return (
-    <div style={{ height : '35vh',padding: '60px', fontFamily: 'BMJUA', textAlign: 'center' }}>
-      <h2 className="title">🔍 악보 검색</h2>
+   <div
+  style={{
+    height: '35vh',
+    padding: '60px',
+    fontFamily: 'BMJUA',
+    textAlign: 'center',
+    backgroundImage: `url('./score.png')`, // ✅ 경로는 public 폴더 기준
+    backgroundRepeat: 'no-repeat',         // ✅ 반복 제거
+    backgroundSize: 'cover',               // ✅ 화면 채우기
+    backgroundPosition: 'center',          // ✅ 가운데 정렬
+  }}
+>
+      <h2 className="score-title">🔍 악보 검색</h2>
       <input
         type="text"
         placeholder="악보 제목 검색"

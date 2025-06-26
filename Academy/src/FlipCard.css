@@ -1,0 +1,93 @@
+@font-face {
+  font-family: 'BMJUA';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px; /* 약간 키움 */
+  height: 400px;
+  perspective: 1000px;
+  font-family: 'BMJUA', sans-serif; /* BMJUA 폰트 사용 */
+  cursor: pointer;
+  border-radius: 1rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* 좀 더 부드러운 그림자 */
+  transition: box-shadow 0.3s ease;
+  margin: 10px;
+}
+
+.flip-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  border-radius: 1rem;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: linear-gradient(120deg, #fcf4e1 60%, #e0d7b5 88%, #d1c289 40%, #c7b469 48%);
+  color: #102B5C; /* 헤더 색상과 통일 */
+  box-shadow: inset 0 0 10px rgba(16, 43, 92, 0.1);
+  z-index: 2;
+}
+
+.flip-card-front p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #3b4a6b;
+  margin: 0;
+  padding: 0 10px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.flip-card-back {
+  background: linear-gradient(120deg, #f9f0d9 30%, #b9c7d6 88%, #dde3ef 40%, #c1c9dd 78%);
+  color: #102B5C;
+  transform: rotateY(180deg);
+  box-shadow: inset 0 0 15px rgba(16, 43, 92, 0.15);
+  padding-top: 30px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 뒷면 내부의 기타 코드 박스가 너무 크지 않도록 */
+.flip-card-back > div {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+.chord-title {
+    font-size : 30pt!important;
+}

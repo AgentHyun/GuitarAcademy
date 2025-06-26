@@ -37,8 +37,8 @@ export const GP5Uploader = () => {
   };
 
   return (
-    <div style={{ marginLeft : '-30px', width : '100%', backgroundColor : '#eff3ee', marginTop: '-348px',padding: '60px', fontFamily: 'BMJUA', textAlign: 'center' }}>
-      <h2 className="title">🎸 악보 업로드</h2>
+    <div style={{ marginLeft : '-30px', width : '100%', backgroundColor : 'white', marginTop: '-475px',padding: '60px', fontFamily: 'BMJUA', textAlign: 'center' }}>
+      <h2 className="upload-title">🎸 악보 업로드</h2>
       <input
         type="text"
         value={title}

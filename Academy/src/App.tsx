@@ -11,7 +11,9 @@ import html2canvas from 'html2canvas';
 import './App.css';
 import ImageBoardUploader from './components/ImageBoardUploader';
 import { supabase } from './components/superbase';
-
+import { Toaster } from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 function App() {
   const [members, setMembers] = useState<Member[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +30,7 @@ function App() {
   const photoRef = useRef<HTMLDivElement>(null); // ✅ PHOTO 섹션
   const shortsRef = useRef<HTMLDivElement>(null);
   const scheduleRef = useRef<HTMLDivElement>(null);
-
+  const MySwal = withReactContent(Swal);
   const videoList = [
     '/동해안.mp4',
     '/바이크 라이딩.mp4',
@@ -48,18 +50,32 @@ function App() {
     fetchMembers();
   }, []);
 
-  const handleDateClick = (weekday: number) => {
-    if (!isAuthorized) {
-      const password = prompt('선생님만 관리 가능해요😎');
-      if (password !== '9445') {
-        alert('비밀번호가 틀렸습니다.');
-        return;
-      }
+  const handleDateClick = async (weekday: number) => {
+  if (!isAuthorized) {
+    const result = await MySwal.fire({
+      title: '선생님만 관리 가능해요 😎',
+      input: 'password',
+      inputLabel: '비밀번호를 입력하세요',
+      inputPlaceholder: '비밀번호 입력',
+      showCancelButton: true,
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    });
+
+    if (result.isConfirmed && result.value === '9445') {
       setIsAuthorized(true);
+      setSelectedWeekday(weekday);
+      setIsModalOpen(true);
+    } else if (result.isConfirmed) {
+      await MySwal.fire('❌ 비밀번호가 틀렸습니다.');
     }
-    setSelectedWeekday(weekday);
-    setIsModalOpen(true);
-  };
+
+    return;
+  }
+
+  setSelectedWeekday(weekday);
+  setIsModalOpen(true);
+};
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,7 +140,7 @@ function App() {
       <Header scrollToSection={scrollToSection} />
 
       <div className='banner'>
-        <img width='1000px' height='900px' src='/배너.png' />
+        <img className='banner-img' width='1000px' height='900px' src='/배너.png' />
       </div>
 
       <div className='location-section' ref={locationRef}>
@@ -163,7 +179,7 @@ function App() {
           handleDelete={handleDelete}
         />
       )}
-
+  <Toaster position="top-center" />
       <Footer />
     </div>
   );
