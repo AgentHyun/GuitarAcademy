@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
@@ -16,21 +15,20 @@ const Header = ({ scrollToSection }: HeaderProps) => {
         style={{ width: '20%', marginLeft: '-30px' }}
       />
       <nav className="nav" style={{ marginBottom: '20px' }}>
-        {/* ✅ 메인 페이지로 이동 */}
-        <button className='header-menu' onClick={() => navigate('/')}>HOME</button>
-        <button className='header-menu' onClick={() => scrollToSection('location')}>LOCATION</button>
-        <button className='header-menu' onClick={() => scrollToSection('photo')}>PHOTO</button>
-        <button className='header-menu' onClick={() => scrollToSection('shorts')}>SHORTS</button>
-        <button className='header-menu' onClick={() => scrollToSection('schedule')}>SCHEDULE</button>
+        <button className="header-menu" onClick={() => navigate('/')}>HOME</button>
+        <button className="header-menu" onClick={() => scrollToSection('location')}>LOCATION</button>
+        <button className="header-menu" onClick={() => scrollToSection('photo')}>PHOTO</button>
+        <button className="header-menu" onClick={() => scrollToSection('shorts')}>SHORTS</button>
+        <button className="header-menu" onClick={() => scrollToSection('schedule')}>SCHEDULE</button>
         <button
-          className='header-menu'
+          className="header-menu"
           onClick={() => navigate('/gp5')}
           style={{ backgroundColor: '#102B5C', color: 'white' }}
         >
           MUSIC
         </button>
         <button
-          className='header-menu'
+          className="header-menu"
           onClick={() => navigate('/chord')}
           style={{ backgroundColor: '#102B5C', color: 'white' }}
         >

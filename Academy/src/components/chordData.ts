@@ -1,3 +1,5 @@
+type FretValue = number | "x";
+
 export const chordMap: Record<string, { str: number; fret: FretValue }[]> = {
   C: [
     { str: 6, fret: 'x' }, { str: 5, fret: 3 }, { str: 4, fret: 2 },

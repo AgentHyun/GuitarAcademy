@@ -9,7 +9,7 @@ const ChordsGalleryPage: React.FC = () => {
 
   return (
     <>
-      <Header />
+        <Header scrollToSection={() => {}} />
       <div style={{
         fontFamily: 'sans-serif',
         padding: '40px',

@@ -1,3 +1,9 @@
+interface Props {
+  chordName: string;
+  frets: { str: number; fret: number | 'x' }[];
+  description: string;
+}
+
 const GuitarChordBox: React.FC<Props> = ({ chordName, frets, description }) => {
   const fretCount = 5;
   const stringCount = 6;
@@ -8,6 +14,7 @@ const GuitarChordBox: React.FC<Props> = ({ chordName, frets, description }) => {
     <div style={{ textAlign: 'center', marginBottom: '40px' }}>
       <h2>{chordName}</h2>
       <svg width={stringSpacing * (stringCount - 1) + 40} height={fretSpacing * fretCount + 40}>
+        {/* 줄 그리기 */}
         {Array.from({ length: stringCount }, (_, i) => (
           <line
             key={`string-${i}`}
@@ -18,6 +25,7 @@ const GuitarChordBox: React.FC<Props> = ({ chordName, frets, description }) => {
             stroke="black"
           />
         ))}
+        {/* 프렛 그리기 */}
         {Array.from({ length: fretCount + 1 }, (_, i) => (
           <line
             key={`fret-${i}`}
@@ -29,21 +37,32 @@ const GuitarChordBox: React.FC<Props> = ({ chordName, frets, description }) => {
             strokeWidth={i === 0 ? 3 : 1}
           />
         ))}
+        {/* 손가락 위치 */}
         {frets.map(({ str, fret }, idx) => {
           if (fret === 'x' || fret === 0) return null;
           const x = (6 - str) * stringSpacing + 20;
           const y = fret * fretSpacing - fretSpacing / 2 + 20;
           return <circle key={idx} cx={x} cy={y} r={6} fill="black" />;
         })}
+        {/* X 표기 */}
         {frets.map(({ str, fret }, idx) => {
           if (fret !== 'x') return null;
           const x = (6 - str) * stringSpacing + 20;
-          return <text key={`x-${idx}`} x={x - 5} y={15} fontSize="14" fill="red">x</text>;
+          return (
+            <text key={`x-${idx}`} x={x - 5} y={15} fontSize="14" fill="red">
+              x
+            </text>
+          );
         })}
+        {/* O 표기 */}
         {frets.map(({ str, fret }, idx) => {
           if (fret !== 0) return null;
           const x = (6 - str) * stringSpacing + 20;
-          return <text key={`o-${idx}`} x={x - 5} y={15} fontSize="14" fill="green">o</text>;
+          return (
+            <text key={`o-${idx}`} x={x - 5} y={15} fontSize="14" fill="green">
+              o
+            </text>
+          );
         })}
       </svg>
       <p style={{ marginTop: '12px', fontSize: '0.9rem' }}>{description}</p>

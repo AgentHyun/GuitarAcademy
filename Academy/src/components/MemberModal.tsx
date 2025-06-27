@@ -4,7 +4,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   form: { name: string; gender: '남' | '여'; time: string };
-  setForm: (val: any) => void;
+  setForm: (val: { name: string; gender: '남' | '여'; time: string }) => void;
   handleSubmit: (e: React.FormEvent) => void;
   members: Member[];
   selectedWeekday: number | null;
@@ -19,7 +19,7 @@ const MemberModal = ({
   handleSubmit,
   members,
   selectedWeekday,
-  handleDelete
+  handleDelete,
 }: Props) => {
   if (!isOpen || selectedWeekday === null) return null;
 
@@ -28,16 +28,40 @@ const MemberModal = ({
     .filter((m) => m.weekday === selectedWeekday);
 
   return (
-    <div className="modal-overlay" style={{
-      position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-      backgroundColor: 'rgba(0,0,0,0.4)', zIndex: 1000,
-      display: 'flex', alignItems: 'center', justifyContent: 'center'
-    }}>
-      <div className="modal" style={{
-        background: '#fff', padding: '30px', borderRadius: '12px',
-        width: '400px', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.3)'
-      }}>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', textAlign: 'center',flexDirection: 'column', gap: '20px' }}>
+    <div
+      className="modal-overlay"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        zIndex: 1000,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        className="modal"
+        style={{
+          background: '#fff',
+          padding: '30px',
+          borderRadius: '12px',
+          width: '400px',
+          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            textAlign: 'center',
+          }}
+        >
           <h2>{['일', '월', '화', '수', '목', '금', '토'][selectedWeekday]}요일</h2>
 
           <input
@@ -54,14 +78,16 @@ const MemberModal = ({
                 type="radio"
                 checked={form.gender === '남'}
                 onChange={() => setForm({ ...form, gender: '남' })}
-              /> 남
+              />{' '}
+              남
             </label>
             <label>
               <input
                 type="radio"
                 checked={form.gender === '여'}
                 onChange={() => setForm({ ...form, gender: '여' })}
-              /> 여
+              />{' '}
+              여
             </label>
           </div>
 
@@ -79,15 +105,31 @@ const MemberModal = ({
             })}
           </select>
 
-          <button type="submit" className='submit-btn'>등록</button>
-          <button type="button" className='submit-btn' onClick={onClose} style={{ backgroundColor: '#ccc' }}>
+          <button type="submit" className="submit-btn">
+            등록
+          </button>
+          <button
+            type="button"
+            className="submit-btn"
+            onClick={onClose}
+            style={{ backgroundColor: '#ccc' }}
+          >
             닫기
           </button>
 
           <div style={{ marginTop: '12px' }}>
             {dayMembers.map((m) => (
-              <div key={m.originalIdx} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-                <span>{m.name} ({m.gender}) {m.time}</span>
+              <div
+                key={m.originalIdx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginTop: '6px',
+                }}
+              >
+                <span>
+                  {m.name} ({m.gender}) {m.time}
+                </span>
                 <button onClick={() => handleDelete(m.originalIdx)}>삭제</button>
               </div>
             ))}

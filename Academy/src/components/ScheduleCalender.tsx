@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Member } from './types';
 import { toast } from 'react-hot-toast';
+
 interface Props {
   members: Member[];
   handleDateClick: (weekday: number) => void;
   handleCaptureCalendar: () => void;
-  calendarRef: React.RefObject<HTMLDivElement>;
+  calendarRef: React.RefObject<HTMLDivElement | null>;
   showFullName: boolean;
-  isAuthorized: boolean; // ✅ 추가
+  isAuthorized: boolean;
 }
-
 
 const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -21,21 +21,20 @@ const WeekSchedule = ({
   handleCaptureCalendar,
   calendarRef,
   showFullName,
-isAuthorized,
+  isAuthorized,
 }: Props) => {
   const [forceFullName, setForceFullName] = useState(false);
 
-const handleDownloadClick = async () => {
-  if (!isAuthorized) {
-    toast.error('선생님만 다운로드 가능합니다 😎');
-    return;
-  }
-
-  setForceFullName(true);
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  handleCaptureCalendar();
-  setForceFullName(false);
-};
+  const handleDownloadClick = async () => {
+    if (!isAuthorized) {
+      toast.error('선생님만 다운로드 가능합니다 😎');
+      return;
+    }
+    setForceFullName(true);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    handleCaptureCalendar();
+    setForceFullName(false);
+  };
 
   return (
     <div
@@ -48,10 +47,16 @@ const handleDownloadClick = async () => {
         width: '100%',
         padding: '120px',
         fontFamily: 'BMJUA',
-        
       }}
     >
-      <h1 style={{ fontFamily: 'BMJUA', color: '#102B5C', fontSize: '40pt', marginRight : '220px' }}>
+      <h1
+        style={{
+          fontFamily: 'BMJUA',
+          color: '#102B5C',
+          fontSize: '40pt',
+          marginRight: '220px',
+        }}
+      >
         시간표
       </h1>
 
@@ -66,7 +71,7 @@ const handleDownloadClick = async () => {
           boxShadow: '0 0 20px rgba(0,0,0,0.15)',
           border: '1px solid #ddd',
           width: 'fit-content',
-          marginRight : '220px',
+          marginRight: '220px',
         }}
       >
         {weekdays.map((label, weekdayIndex) => {
@@ -154,7 +159,7 @@ const handleDownloadClick = async () => {
           border: 'none',
           borderRadius: '6px',
           cursor: 'pointer',
-          marginRight : '220px'
+          marginRight: '220px',
         }}
       >
         Download

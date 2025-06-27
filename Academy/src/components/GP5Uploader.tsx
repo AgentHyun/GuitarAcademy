@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { supabase } from '../components/superbase';
 import { toast } from 'react-hot-toast';
 

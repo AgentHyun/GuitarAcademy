@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import '../App.css';
 
@@ -28,7 +28,7 @@ const ImageBoardUploader = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      const { data, error } = await supabase.from('images').select('*').order('id', { ascending: false });
+      const { data } = await supabase.from('images').select('*').order('id', { ascending: false });
       if (data) setImages(data as UploadedImage[]);
     };
     fetchImages();
@@ -52,7 +52,7 @@ const ImageBoardUploader = () => {
       url: data.secure_url,
     };
 
-    const { data: inserted, error } = await supabase.from('images').insert([newImage]).select();
+    const { data: inserted } = await supabase.from('images').insert([newImage]).select();
 
     if (inserted) {
       setImages((prev) => [inserted[0], ...prev]);
