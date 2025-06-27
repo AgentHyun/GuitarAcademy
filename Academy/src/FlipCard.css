@@ -7,13 +7,13 @@
 
 .flip-card {
   background-color: transparent;
-  width: 300px; /* 약간 키움 */
+  width: 300px;
   height: 400px;
   perspective: 1000px;
-  font-family: 'BMJUA', sans-serif; /* BMJUA 폰트 사용 */
+  font-family: 'BMJUA', sans-serif;
   cursor: pointer;
   border-radius: 1rem;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* 좀 더 부드러운 그림자 */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
   transition: box-shadow 0.3s ease;
   margin: 10px;
 }
@@ -21,8 +21,6 @@
 .flip-card:hover {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
-
-
 
 .flip-card-inner {
   position: relative;
@@ -54,40 +52,42 @@
   overflow: hidden;
 }
 
+/* 앞면 */
 .flip-card-front {
-  background: linear-gradient(120deg, #fcf4e1 60%, #e0d7b5 88%, #d1c289 40%, #c7b469 48%);
-  color: #102B5C; /* 헤더 색상과 통일 */
-  box-shadow: inset 0 0 10px rgba(16, 43, 92, 0.1);
+  background: linear-gradient(120deg, #f8f1e4 0%, #e7d8b9 100%);
+  color: #4b3832;
+  box-shadow: inset 0 0 10px rgba(75, 56, 50, 0.1);
   z-index: 2;
 }
 
 .flip-card-front p {
   font-size: 1rem;
   line-height: 1.4;
-  color: #3b4a6b;
+  color: #5c4a3d;
   margin: 0;
   padding: 0 10px;
   flex-grow: 1;
   overflow-y: auto;
 }
 
+/* 뒷면 */
 .flip-card-back {
-  background: linear-gradient(120deg, #f9f0d9 30%, #b9c7d6 88%, #dde3ef 40%, #c1c9dd 78%);
-  color: #102B5C;
+  background: linear-gradient(120deg, #fbe6d4 0%, #e4cbb2 100%);
+  color: #4b3832;
   transform: rotateY(180deg);
-  box-shadow: inset 0 0 15px rgba(16, 43, 92, 0.15);
+  box-shadow: inset 0 0 15px rgba(75, 56, 50, 0.15);
   padding-top: 30px;
   align-items: center;
   justify-content: flex-start;
 }
 
-/* 뒷면 내부의 기타 코드 박스가 너무 크지 않도록 */
 .flip-card-back > div {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto;
+  width: 80%;
+  height: 70%;
+  margin-top: 50px;
 }
 
 .chord-title {
-    font-size : 30pt!important;
+  font-size: 30pt !important;
+  color: #4b3832;
 }

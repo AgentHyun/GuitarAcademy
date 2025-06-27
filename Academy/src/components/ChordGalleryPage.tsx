@@ -16,7 +16,7 @@ const ChordsGalleryPage: React.FC = () => {
         textAlign: 'center',
         marginTop : '-400px'
       }}>
-        <h1 className='title'>🎸 코드 운지법 카드</h1>
+        <h1 className='title'>🎸 코드 갤러리</h1>
        <div style={{
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',

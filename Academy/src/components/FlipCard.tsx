@@ -16,7 +16,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ chordName }) => (
         <p>{chordDescriptions[chordName]}</p>
       </div>
       <div className="flip-card-back">
-       <GuitarChordBox
+     <GuitarChordBox
   frets={chordMap[chordName]}
 
 />

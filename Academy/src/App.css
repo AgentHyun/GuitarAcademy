@@ -18,7 +18,7 @@
 }
 .header{
   display: flex;
-  margin-bottom : 20vw;
+  margin-bottom : 30vw;
   margin-top : -20px;
   background-color: #102B5C;
   height :280px;
@@ -50,7 +50,7 @@
   font-size: 30pt;
   margin-top : 90px;
   background-color: transparent;
-  margin-left : 40px;
+ 
   color : white;
   
 }

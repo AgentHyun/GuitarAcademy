@@ -4,6 +4,7 @@ import { GP5Uploader } from '../components/GP5Uploader';
 import GP5Browser from '../components/GP5Browser';
 import Header from './Header';
 import { supabase } from '../components/superbase';
+import { Toaster } from 'react-hot-toast';
 
 interface Gp5File {
   id: number;
@@ -64,6 +65,7 @@ const Gp5Page = () => {
   return (
     <div>
       <Header />
+<Toaster position="top-center" />
       <GP5Uploader />
       <GP5Browser />
 
