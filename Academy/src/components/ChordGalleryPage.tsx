@@ -14,7 +14,7 @@ const ChordsGalleryPage: React.FC = () => {
         fontFamily: 'sans-serif',
         padding: '40px',
         textAlign: 'center',
-        marginTop : '-400px'
+       
       }}>
         <h1 className='title'>🎸 코드 갤러리</h1>
        <div style={{

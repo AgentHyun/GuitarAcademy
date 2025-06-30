@@ -15,25 +15,30 @@ const Header = ({ scrollToSection }: HeaderProps) => {
         style={{ width: '20%', marginLeft: '-30px' }}
       />
       <nav className="nav" style={{ marginBottom: '20px' }}>
-        <button className="header-menu" onClick={() => navigate('/')}>HOME</button>
-        <button className="header-menu" onClick={() => scrollToSection('location')}>LOCATION</button>
-        <button className="header-menu" onClick={() => scrollToSection('photo')}>PHOTO</button>
-        <button className="header-menu" onClick={() => scrollToSection('shorts')}>SHORTS</button>
-        <button className="header-menu" onClick={() => scrollToSection('schedule')}>SCHEDULE</button>
+        <button className="header-menu" onClick={() => navigate('/')}>홈</button>
+
         <button
           className="header-menu"
           onClick={() => navigate('/gp5')}
           style={{ backgroundColor: '#102B5C', color: 'white' }}
         >
-          MUSIC
+          악보
         </button>
         <button
           className="header-menu"
           onClick={() => navigate('/chord')}
           style={{ backgroundColor: '#102B5C', color: 'white' }}
         >
-          CHORD
+          코드
         </button>
+        <button
+          className="header-menu"
+          onClick={() => navigate('/attendance')}
+          style={{ backgroundColor: '#102B5C', color: 'white' }}
+        >
+          출석
+        </button> 
+
       </nav>
     </div>
   );

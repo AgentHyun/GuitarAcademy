@@ -51,7 +51,7 @@ export const GP5Uploader = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        marginTop  : '-575px'
+        
       }}
     >
       <h2
