@@ -54,7 +54,7 @@
 
 ✅ **위치 안내**  
 - Kakao 지도 API를 활용한 학원 위치 표시  
-- 학원 위치에 대한 오디오 안내 포함
+
 
  ![image](https://github.com/user-attachments/assets/6cab5662-e8ab-4286-a059-4b9af9aa72fe)
 
