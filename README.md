@@ -81,8 +81,8 @@
 ## ⚙️ 설치 방법
 
 ```bash
-git clone <레포지토리 주소>
-cd <프로젝트 디렉토리>
+git clone [<레포지토리 주소>](https://github.com/AgentHyun/GuitarAcademy.git)
+cd Academy 
 npm install
 npm run dev
 
